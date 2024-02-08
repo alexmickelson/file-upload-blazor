@@ -12,6 +12,8 @@ jobs:
 
           docker build -t alex-test-blazor-thing .
           # run image
+
+          docker rm -f alex-test-blazor-thing || true
           docker run -d \
             -p 9876:8080 \
             --name alex-test-blazor-thing \
