@@ -13,4 +13,6 @@ jobs:
           docker build -t alex-test-blazor-thing .
           # run image
           docker run -d alex-test-blazor-thing
+
+          echo "made it to the end 🔥"
           
