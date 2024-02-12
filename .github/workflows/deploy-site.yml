@@ -7,17 +7,33 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - run: |
+      - name: lint and test
+        run: |
+          echo "RUNNING C# TESTS"
+          dotnet test
+          
+          echo "VERIFYING FORMATTING"
+          if dotnet format --verify-no-changes --severity warn ; then
+            echo "FORMATTING IS CORRECT"
+          else
+            echo "FORMATTING FAILED"
+              exit 1
+          fi
+          dotnet build /WarnAsError
+
+          
+      - name: deploy
+        run: |
           # build image
 
           docker build -t alex-test-blazor-thing .
           # run image
 
-          docker rm -f alex-test-blazor-thing || true
+          docker rm -f alex-test-blazor-thing || truez
           docker run -d \
             -p 9876:8080 \
             --name alex-test-blazor-thing \
             alex-test-blazor-thing
 
           echo "made it to the end 🔥"
-          
+        
