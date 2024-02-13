@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Not Alex CI/CD Pipeline
 on: [push]
 jobs:
   lintingAndBuilding:
