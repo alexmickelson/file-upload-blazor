@@ -1,11 +1,15 @@
 name: CI/CD Pipeline
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  lintingAndBuilding:
     runs-on: self-hosted
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.x
+          cache: true
       - name: lint and test
         run: |
           echo "RUNNING C# TESTS"
@@ -20,7 +24,11 @@ jobs:
           fi
           dotnet build /WarnAsError
 
-          
+  deploying:
+    runs-on: self-hosted
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - name: deploy
         run: |
           # build image
