@@ -24,7 +24,7 @@ public class UserService
     {
         users = [];
 
-        if(File.Exists(storageFile))
+        if (File.Exists(storageFile))
         {
             var rawUsers = File.ReadAllText(storageFile);
             users = JsonSerializer.Deserialize<IEnumerable<User>>(rawUsers);
@@ -37,7 +37,6 @@ public class UserService
         {
             var trustedFileName = Path.GetRandomFileName();
             var path = Path.Combine("wwwroot/uploads", file.Name);
-            
 
             await using FileStream fs = new(path, FileMode.Create);
             await file.OpenReadStream().CopyToAsync(fs);
