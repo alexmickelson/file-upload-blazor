@@ -6,9 +6,9 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
+      # - uses: actions/setup-dotnet@v3
+      #   with:
+      #     dotnet-version: 8.0.x
       - name: lint and test
         run: |
           echo "RUNNING C# TESTS"
@@ -24,6 +24,7 @@ jobs:
           dotnet build /WarnAsError
 
   deploying:
+    needs: lintingAndBuilding
     runs-on: self-hosted
     steps:
       - name: Check out repository code
