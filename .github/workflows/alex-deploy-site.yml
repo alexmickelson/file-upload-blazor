@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 on: [push]
 jobs:
   lintingAndBuilding:
-    runs-on: alex-office4
+    runs-on: not-alex-runner-label
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
