@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 on: [push]
 jobs:
   lintingAndBuilding:
-    runs-on: self-hosted
+    runs-on: alex-office4
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
