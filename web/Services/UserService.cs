@@ -27,7 +27,7 @@ public class UserService
         if (File.Exists(storageFile))
         {
             var rawUsers = File.ReadAllText(storageFile);
-            users = JsonSerializer.Deserialize<IEnumerable<User>>(rawUsers);
+            users = JsonSerializer.Deserialize<IEnumerable<User>>(rawUsers) ?? throw new Exception("deserialized users are null");
         }
     }
 

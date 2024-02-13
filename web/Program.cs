@@ -3,7 +3,6 @@ global using web.Models;
 
 using Microsoft.AspNetCore.SignalR;
 using web.Components;
-using web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
