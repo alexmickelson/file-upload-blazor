@@ -3,8 +3,15 @@ global using web.Models;
 
 using Microsoft.AspNetCore.SignalR;
 using web.Components;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<MyDbContext>(config => {
+    var myConnectionString = builder.Configuration["MYDATABASECONNECTIONSTRING"];
+    // var myConnectionString = Environment.GetEnvironmentVariable("MYDATABASECONNECTIONSTRING");
+    config.UseNpgsql(myConnectionString);
+});
 
 builder.Services.Configure<HubOptions>(options =>
 {
@@ -36,3 +43,5 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+public partial class Program { }

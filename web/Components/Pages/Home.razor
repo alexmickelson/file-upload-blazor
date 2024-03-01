@@ -6,6 +6,7 @@
 @inject IWebHostEnvironment Environment
 @inject UserService userService
 @rendermode InteractiveServer
+@inject MyDbContext context
 
 <PageTitle>File Upload 1</PageTitle>
 
@@ -47,12 +48,12 @@ else
     <div>
     @user.Name
     <ul>
-        @foreach (var fileName in user.OwnedFiles)
-            {
-                <li>@fileName</li>
-            }
-        </ul>
-    </div>
+        @* @foreach (var fileName in user.OwnedFiles)
+        {
+        <li>@fileName</li>
+        } *@
+    </ul>
+</div>
 }
 
 
@@ -61,7 +62,6 @@ else
     private bool isLoading;
 
     private string userName { get; set; } = "";
-
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
@@ -78,10 +78,16 @@ else
 
             isLoading = false;
         }
-        else 
+        else
         {
             Console.WriteLine("cannot upload file, user not signed in");
         }
     }
 
+    protected override async Task OnInitializedAsync()
+    {
+        context.Users.ToList();
+        Console.WriteLine("read users!");
+        
+    }
 }

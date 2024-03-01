@@ -1,0 +1,9 @@
+Dockerfile
+init.sql
+.github/
+alex-upload.service
+README.md
+deploy.sh
+.gitignore
+.dockerignore
+docker-compose.yml

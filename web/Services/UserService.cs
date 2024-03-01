@@ -6,8 +6,8 @@ namespace web.Services;
 
 public class UserService
 {
-    private IEnumerable<User> users { get; set; }
-    public IEnumerable<User> Users
+    private IEnumerable<MyUser> users { get; set; }
+    public IEnumerable<MyUser> Users
     {
         get => users;
         set
@@ -24,11 +24,11 @@ public class UserService
     {
         users = [];
 
-        if (File.Exists(storageFile))
-        {
-            var rawUsers = File.ReadAllText(storageFile);
-            users = JsonSerializer.Deserialize<IEnumerable<User>>(rawUsers) ?? throw new Exception("deserialized users are null");
-        }
+        // if (File.Exists(storageFile))
+        // {
+        //     var rawUsers = File.ReadAllText(storageFile);
+        //     users = JsonSerializer.Deserialize<IEnumerable<MyUser>>(rawUsers) ?? throw new Exception("deserialized users are null");
+        // }
     }
 
     public async Task StoreFile(string userName, IBrowserFile file)
@@ -53,30 +53,30 @@ public class UserService
 
     private void addFileToUser(string userName, IBrowserFile file)
     {
-        var currentUser = Users.FirstOrDefault(u => u.Name == userName);
-        if (currentUser == null)
-        {
-            var newUser = new User
-            {
-                Name = userName,
-                OwnedFiles = [file.Name]
-            };
+        // var currentUser = Users.FirstOrDefault(u => u.Name == userName);
+        // if (currentUser == null)
+        // {
+        //     var newUser = new User
+        //     {
+        //         Name = userName,
+        //         // OwnedFiles = [file.Name]
+        //     };
 
-            Users = Users.Append(newUser);
-        }
-        else
-        {
-            var myusers = Users;
-            var updatedUser = currentUser with
-            {
-                OwnedFiles = currentUser.OwnedFiles.Append(file.Name)
-            };
+        //     Users = Users.Append(newUser);
+        // }
+        // else
+        // {
+        //     var myusers = Users;
+        //     var updatedUser = currentUser with
+        //     {
+        //         // OwnedFiles = currentUser.OwnedFiles.Append(file.Name)
+        //     };
 
-            Users = Users.Select(u =>
-                u.Name == updatedUser.Name
-                    ? updatedUser
-                    : u
-            ).ToArray();
-        }
+        //     Users = Users.Select(u =>
+        //         u.Name == updatedUser.Name
+        //             ? updatedUser
+        //             : u
+        //     ).ToArray();
+        // }
     }
 }

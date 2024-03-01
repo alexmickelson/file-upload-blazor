@@ -1,0 +1,31 @@
+version: '3'
+services:
+  alex-cool-integration-db:
+    image: postgres
+    volumes:
+      - my-database-data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_USER=alex
+      - POSTGRES_DB=alexdb
+    networks:
+      - my_network
+  
+  alex-cool-web:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    volumes:
+      - ../:/app
+    working_dir: /app
+    command: bash -c "cd integrationTests && dotnet test"
+    environment:
+      - MYDATABASECONNECTIONSTRING=Server=alex-cool-integration-db;password=mypassword;user id=alex;database=alexdb;
+    networks:
+      - my_network
+
+networks:
+  my_network:
+
+
+volumes:
+  my-database-data:
