@@ -10,84 +10,28 @@
 
 <PageTitle>File Upload 1</PageTitle>
 
-<h1>File Upload Example 1</h1>
 
-
-<label for="userName">Name</label>
-<input @bind="userName" @bind:event="oninput" />
-
-<p>
-    <label>
-        <InputFile OnChange="@LoadFiles" />
-    </label>
-</p>
-
-@if (isLoading)
+@if(myUsers != null)
 {
-    <p>Uploading...</p>
-}
-else
-{
-    <ul>
-    @foreach (var file in loadedFiles)
-        {
-            <li>
-                <ul>
-                    <li>Name: @file.Name</li>
-                    <li>Last modified: @file.LastModified.ToString()</li>
-                    <li>Size (bytes): @file.Size</li>
-                    <li>Content type: @file.ContentType</li>
-                </ul>
-            </li>
-        }
-    </ul>
-}
-<hr>
-@foreach (var user in userService.Users)
-{
-    <div>
-    @user.Name
-    <ul>
-        @* @foreach (var fileName in user.OwnedFiles)
-        {
-        <li>@fileName</li>
-        } *@
-    </ul>
-</div>
+  <h3>Loaded Users!</h3>
+  @foreach(var user in myUsers)
+  {
+    <div>@user.Name</div>
+  }
 }
 
 
 @code {
-    private List<IBrowserFile> loadedFiles = new();
+    @* private List<IBrowserFile> loadedFiles = new(); *@
     private bool isLoading;
+    private IEnumerable<MyUser>? myUsers = null;
 
     private string userName { get; set; } = "";
-
-    private async Task LoadFiles(InputFileChangeEventArgs e)
+    protected override void OnInitialized()
     {
-        if (userName != "")
-        {
-            isLoading = true;
-            loadedFiles.Clear();
-
-            foreach (var file in e.GetMultipleFiles(1))
-            {
-                await userService.StoreFile(userName, file);
-                loadedFiles.Add(file);
-            }
-
-            isLoading = false;
-        }
-        else
-        {
-            Console.WriteLine("cannot upload file, user not signed in");
-        }
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        context.Users.ToList();
+        myUsers = context.Users.ToList();
         Console.WriteLine("read users!");
+        StateHasChanged();
         
     }
 }

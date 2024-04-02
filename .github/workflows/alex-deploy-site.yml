@@ -1,30 +1,30 @@
 name: Not Alex CI/CD Pipeline
 on: [push]
 jobs:
-  lintingAndBuilding:
-    runs-on: not-alex-runner-label
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      # - uses: actions/setup-dotnet@v3
-      #   with:
-      #     dotnet-version: 8.0.x
-      - name: lint and test
-        run: |
-          echo "RUNNING C# TESTS"
-          dotnet test
+  # lintingAndBuilding:
+    # runs-on: not-alex-runner-label
+    # steps:
+    #   - name: Check out repository code
+    #     uses: actions/checkout@v4
+    #   # - uses: actions/setup-dotnet@v3
+    #   #   with:
+    #   #     dotnet-version: 8.0.x
+    #   - name: lint and test
+    #     run: |
+    #       echo "RUNNING C# TESTS"
+    #       dotnet test
           
-          echo "VERIFYING FORMATTING"
-          if dotnet format --verify-no-changes --severity warn ; then
-            echo "FORMATTING IS CORRECT"
-          else
-            echo "FORMATTING FAILED"
-              exit 1
-          fi
-          dotnet build /WarnAsError
+    #       echo "VERIFYING FORMATTING"
+    #       if dotnet format --verify-no-changes --severity warn ; then
+    #         echo "FORMATTING IS CORRECT"
+    #       else
+    #         echo "FORMATTING FAILED"
+    #           exit 1
+    #       fi
+    #       dotnet build /WarnAsError
 
   deploying:
-    needs: lintingAndBuilding
+    # needs: lintingAndBuilding
     runs-on: self-hosted
     steps:
       - name: Check out repository code

@@ -26,6 +26,8 @@ builder.Services.AddRazorComponents()
 
 var app = builder.Build();
 
+string i = null;
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
