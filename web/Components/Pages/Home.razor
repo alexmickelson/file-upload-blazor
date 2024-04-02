@@ -22,16 +22,14 @@
 
 
 @code {
-    @* private List<IBrowserFile> loadedFiles = new(); *@
-    private bool isLoading;
-    private IEnumerable<MyUser>? myUsers = null;
+  private bool isLoading;
+  private IEnumerable<MyUser>? myUsers = null;
 
-    private string userName { get; set; } = "";
-    protected override void OnInitialized()
-    {
-        myUsers = context.Users.ToList();
-        Console.WriteLine("read users!");
-        StateHasChanged();
-        
-    }
+  private string userName { get; set; } = "";
+  protected override void OnInitialized()
+  {
+      myUsers = context.Users.ToList();
+      Console.WriteLine("read users!");
+      StateHasChanged();
+  }
 }

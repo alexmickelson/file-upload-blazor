@@ -16,7 +16,7 @@ services:
     build: .
     ports:
       - 8888:8080
-    environment:
+    environment: 
       - MYDATABASECONNECTIONSTRING=Server=alex-cool-db;password=mypassword;user id=alex;database=alexdb;
     networks:
       - my_network
