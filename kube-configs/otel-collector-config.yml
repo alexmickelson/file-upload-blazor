@@ -9,32 +9,32 @@ processors:
   batch:
 
 exporters:
-  otlp:
-    endpoint: otelcol:4317
-  zipkin:
-    endpoint: http://zipkin:9411/api/v2/spans
-  prometheus:
-    endpoint: "0.0.0.0:1234"
+  # otlp:
+  #   endpoint: otelcol:4317
+  # zipkin:
+  #   endpoint: http://zipkin:9411/api/v2/spans
+  # prometheus:
+  #   endpoint: "0.0.0.0:1234"
   loki:
-    endpoint: "http://loki:3100/loki/api/v1/push"
+    endpoint: "http://loki-service:3100/loki/api/v1/push"
 
 extensions:
-  health_check:
-  pprof:
-  zpages:
+  # health_check:
+  # pprof:
+  # zpages:
 
 service:
   # extensions: [health_check, pprof, zpages]
   pipelines:
-    traces:
-      receivers: [otlp]
-      processors: []
-      exporters: [zipkin]
-    metrics:
-      receivers: [otlp]
-      processors: []
-      exporters: [prometheus]
     logs:
       receivers: [otlp]
       processors: []
       exporters: [loki]
+    # traces:
+    #   receivers: [otlp]
+    #   processors: []
+    #   exporters: [zipkin]
+    # metrics:
+    #   receivers: [otlp]
+    #   processors: []
+    #   exporters: [prometheus]

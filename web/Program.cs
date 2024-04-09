@@ -4,11 +4,31 @@ global using web.Models;
 using Microsoft.AspNetCore.SignalR;
 using web.Components;
 using Microsoft.EntityFrameworkCore;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Logs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Environment.GetEnvironmentVariable("SOME_ENVIRONMENT_VARIABLE");
 
+var serviceName = "blazor-file-upload";
+builder.Logging.AddOpenTelemetry(options =>
+{
+  options
+    .SetResourceBuilder(
+      ResourceBuilder
+        .CreateDefault()
+        .AddService(serviceName)
+    )
+    .AddOtlpExporter(o =>
+    {
+      o.Endpoint = new Uri(
+        builder.Configuration["COLLECTOR_URL"] ?? 
+        throw new NullReferenceException("environment variable not set: COLLECTOR_URL")
+      );
+    });
+  // .AddConsoleExporter();
+});
 builder.Services.AddDbContext<MyDbContext>(config => {
     var myConnectionString = builder.Configuration["MYDATABASECONNECTIONSTRING"];
     // var myConnectionString = Environment.GetEnvironmentVariable("MYDATABASECONNECTIONSTRING");

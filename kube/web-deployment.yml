@@ -22,5 +22,7 @@ spec:
         ports:
         - containerPort: 8080
         env:
+        - name: COLLECTOR_URL 
+          value: http://otel-collector-service:4317/
         - name: MYDATABASECONNECTIONSTRING
           value: Server=blazor-web-db-service;password=alex-password;user id=alex-user;database=alexdb;
