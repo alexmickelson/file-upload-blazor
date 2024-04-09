@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Environment.GetEnvironmentVariable("SOME_ENVIRONMENT_VARIABLE");
+
 builder.Services.AddDbContext<MyDbContext>(config => {
     var myConnectionString = builder.Configuration["MYDATABASECONNECTIONSTRING"];
     // var myConnectionString = Environment.GetEnvironmentVariable("MYDATABASECONNECTIONSTRING");

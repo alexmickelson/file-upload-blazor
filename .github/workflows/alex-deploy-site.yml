@@ -36,4 +36,10 @@ jobs:
           docker push 144.17.92.12:5000/alex/blazor-web:1
 
           # kubectl -n alex create configmap blazor-web-postgres-init --from-file=init.sql
+
+          cd kube-configs
+            kubectl -n alex delete configmap otel-config || true
+            kubectl -n alex create configmap otel-config --from-file=otel-collector-config.yml
+          cd ..
+
           kubectl apply -f kube/
