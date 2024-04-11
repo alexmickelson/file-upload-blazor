@@ -6,6 +6,8 @@ using web.Components;
 using Microsoft.EntityFrameworkCore;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Logs;
+using OpenTelemetry.Trace;
+using OpenTelemetry.Metrics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +31,31 @@ builder.Logging.AddOpenTelemetry(options =>
     });
   // .AddConsoleExporter();
 });
+
+builder.Services.AddOpenTelemetry()
+  .ConfigureResource(resource => resource.AddService(serviceName))
+  .WithTracing(tracing => tracing
+    .AddSource(DiagnosticsConfig.SourceName)
+    .AddOtlpExporter(o =>
+    {
+      o.Endpoint = new Uri("http://collector:4317/");
+    })
+    .AddAspNetCoreInstrumentation()
+    // .AddProcessor(new BatchActivityExportProcessor(new CustomConsoleExporter()))
+  )
+  .WithMetrics(metrics => metrics
+    .AddMeter("FileUploadMeter")
+    .AddOtlpExporter(o =>
+      {
+        o.Endpoint = new Uri("http://collector:4317/");
+      }
+    )
+    .AddPrometheusExporter()
+    .AddAspNetCoreInstrumentation()
+  );
+
+
+
 builder.Services.AddDbContext<MyDbContext>(config => {
     var myConnectionString = builder.Configuration["MYDATABASECONNECTIONSTRING"];
     // var myConnectionString = Environment.GetEnvironmentVariable("MYDATABASECONNECTIONSTRING");
