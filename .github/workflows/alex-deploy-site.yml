@@ -44,7 +44,8 @@ jobs:
             kubectl -n alex create configmap grafana-datasource-config --from-file=grafana-datasource.yml
           cd ..
 
+          RUN_ID=${{ github.run_id }}
           for file in ./kube; do
             echo "Applying $file"
-            kubectl apply -f "$file"
+            cat $file | envsubst | kubectl apply -f -
           done
