@@ -9,4 +9,6 @@ jobs:
         run: |
           CONTAINER_NAME=$(kubectl -n alex get pods --no-headers -o custom-columns=":metadata.name" | grep "blazor-web-db-deployment")
           echo $CONTAINER_NAME
-          kubectl -n alex exec -t $CONTAINER_NAME -- pg_dumpall -c -U alex-user > /home/alex/dump.sql
+          kubectl -n alex exec -t $CONTAINER_NAME -- \
+            pg_dumpall -c -U alex-user \
+            > /home/alex/dump.sql
