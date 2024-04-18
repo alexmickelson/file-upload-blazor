@@ -11,5 +11,6 @@ jobs:
       - name: deploy kubernetes environment
         run: |
           export PULL_REQUEST_ID=${{ github.event.pull_request.number }}
-          kubctl create namespace alex-pr-$PULL_REQUEST_ID
+          echo $PULL_REQUEST_ID
+          kubectl create namespace alex-pr-$PULL_REQUEST_ID
           
