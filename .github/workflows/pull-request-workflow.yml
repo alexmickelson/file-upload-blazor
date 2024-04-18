@@ -12,8 +12,19 @@ jobs:
         run: |
           export PULL_REQUEST_ID=${{ github.event.pull_request.number }}
           echo $PULL_REQUEST_ID
-          kubectl create namespace alex-pr-$PULL_REQUEST_ID || true
-
-          kubectl -n alex-pr-$PULL_REQUEST_ID delete configmap blazor-web-postgres-init || true
-          kubectl -n alex-pr-$PULL_REQUEST_ID create configmap blazor-web-postgres-init --from-file=init.sql
+          export RUN_SALT="pr-${PULL_REQUEST_ID}-${GITHUB_RUN_ID}"
+          export NAMESPACE="alex-pr-$PULL_REQUEST_ID"
           
+          kubectl create namespace $NAMESPACE || true
+
+          kubectl -n $NAMESPACE delete configmap blazor-web-postgres-init || true
+          kubectl -n $NAMESPACE create configmap blazor-web-postgres-init --from-file=init.sql
+          
+          docker build -t 144.17.92.12:5000/alex/blazor-web:$RUN_SALT .
+          docker push 144.17.92.12:5000/alex/blazor-web:$RUN_SALT
+
+
+          for file in ./kube-pr/*; do
+            echo "Applying $file"
+            cat $file | envsubst | kubectl apply -f -
+          done
