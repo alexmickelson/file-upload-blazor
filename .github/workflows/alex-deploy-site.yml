@@ -1,5 +1,7 @@
 name: Not Alex CI/CD Pipeline
-on: [push]
+on: 
+  push:
+    branches: [main]
 jobs:
   # lintingAndBuilding:
     # runs-on: not-alex-runner-label
