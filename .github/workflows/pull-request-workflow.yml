@@ -28,6 +28,10 @@ jobs:
             echo "Applying $file"
             cat $file | envsubst | kubectl apply -f -
           done
+  comment:
+
+    runs-on: ubuntu-latest
+    steps:
       - name: Comment on Pull Request
         uses: actions/github-script@v6
         with:
