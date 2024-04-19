@@ -28,3 +28,16 @@ jobs:
             echo "Applying $file"
             cat $file | envsubst | kubectl apply -f -
           done
+      - name: Comment on Pull Request
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const issue_number = context.issue.number;
+            const message = 'check out the pull request at <http://${{ github.event.pull_request.number }}.alex-kube-ts.duckdns.org>';
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: issue_number,
+              body: message
+            });
