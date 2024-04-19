@@ -2,6 +2,7 @@ name: Not Alex CI/CD Pipeline
 on: 
   push:
     branches: [main]
+  workflow_dispatch:
 jobs:
   # lintingAndBuilding:
     # runs-on: not-alex-runner-label
