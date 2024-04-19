@@ -37,3 +37,4 @@ jobs:
               repo: context.repo.repo,
               body: 'check out the pull request at <http://${{ github.event.pull_request.number }}.alex-kube-ts.duckdns.org>'
             });
+      # repo settings/actions workflow permissions read and write permissions
