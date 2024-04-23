@@ -93,6 +93,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+app.MapGet("/health", () => "healthy");
 app.Run();
 
 public partial class Program { }

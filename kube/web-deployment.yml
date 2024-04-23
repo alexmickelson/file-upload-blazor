@@ -26,3 +26,17 @@ spec:
           value: http://otel-collector-service:4317/
         - name: MYDATABASECONNECTIONSTRING
           value: Server=blazor-web-db-service;password=alex-password;user id=alex-user;database=alexdb;
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+
