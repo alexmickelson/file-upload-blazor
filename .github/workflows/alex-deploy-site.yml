@@ -2,6 +2,7 @@ name: Not Alex CI/CD Pipeline
 on: 
   push:
     branches: [main]
+  workflow_dispatch:
 jobs:
   # lintingAndBuilding:
     # runs-on: not-alex-runner-label
@@ -32,10 +33,12 @@ jobs:
         uses: actions/checkout@v4
       - name: deploy
         run: |
+
           docker build -t 144.17.92.12:5000/alex/blazor-web:$GITHUB_RUN_ID .
           docker push 144.17.92.12:5000/alex/blazor-web:$GITHUB_RUN_ID
 
-          # kubectl -n alex create configmap blazor-web-postgres-init --from-file=init.sql
+          kubectl -n alex delete configmap blazor-web-postgres-init || true
+          kubectl -n alex create configmap blazor-web-postgres-init --from-file=init.sql
 
           cd kube-configs
             kubectl -n alex delete configmap otel-config || true
